@@ -14,6 +14,8 @@ module.exports = {
     devtool: "source-map",
     devServer: {
         static: "./dist",
+        liveReload: true,
+        hot: false,
     },
     optimization: {
         runtimeChunk: "single",

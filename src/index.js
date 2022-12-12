@@ -1,15 +1,14 @@
 import "./style.css"
-import { projectStartupLoad } from "./modules/projectStartupLoad"
+import blankProjectLoad from "./modules/blankProjectLoad"
 import { initialDOMLoad } from "./modules/initialDOMLoad"
 import createProject from "./modules/projectObject"
+import createTask from "./modules/task"
 
-//projectStartupLoad()
+const projectArray = blankProjectLoad()
 
-//initialDOMLoad()
+initialDOMLoad()
 
-const p1 = createProject("Grocery")
-console.log(p1.getTitle())
-p1.addToTaskList("Carrots")
+console.log(projectArray[0])
 
 // TODO: click event module HERE for project creation
 // This event handler should detect for new project creation which then calls

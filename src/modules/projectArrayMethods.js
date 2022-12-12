@@ -14,12 +14,13 @@ const projectArrayMethods = {
         },
     },
 
-    // helper
-    updateProjectIds() {
-        if (this.length <= 0) return
-        for (let i = 0; i < this.length; i++) {
-            this[i].setProjectId(i)
-        }
+    updateProjectIds: {
+        value: function () {
+            if (this.length <= 0) return
+            for (let i = 0; i < this.length; i++) {
+                this[i].setProjectId(i)
+            }
+        },
     },
 }
 

@@ -7,7 +7,9 @@ export function initialDOMLoad() {
     // DOM for the default project load
     const projectListDiv = document.createElement("div")
     projectListDiv.textContent = "Projects"
+    projectListDiv.classList.add("projectArray")
 
     // append to contentDiv
     contentDiv.append(heading, projectListDiv)
+    console.log("initialDOMLoad loaded")
 }

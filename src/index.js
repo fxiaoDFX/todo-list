@@ -1,12 +1,12 @@
 import "./style.css"
 import blankProjectLoad from "./modules/blankProjectLoad"
-import { initialDOMLoad } from "./modules/initialDOMLoad"
+import DOMHandler from "./modules/DOMHandler"
 import createProject from "./modules/projectObject"
 import createTask from "./modules/task"
 
 const projectArray = blankProjectLoad()
 
-initialDOMLoad()
+DOMHandler(projectArray)
 
 console.log(projectArray[0])
 

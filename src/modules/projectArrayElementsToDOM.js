@@ -1,8 +1,10 @@
-export default function createProjectBoxElement(project) {
+export default function createProjectElementDOM(project) {
     const titleName = project.getTitle()
-    const div = document.createElement("div")
-    const projectTitle = document.createElement("h3")
+    const listItem = document.createElement("li")
+    const projectTitle = document.createElement("h4")
     projectTitle.innerText = titleName
-    div.append(projectTitle)
-    return div
+    listItem.setAttribute("id", project.getProjectId())
+    listItem.classList.add("projectName")
+    listItem.append(projectTitle)
+    return listItem
 }

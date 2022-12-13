@@ -5,11 +5,13 @@ export function initialDOMLoad() {
     heading.textContent = "Todo List"
 
     // DOM for the default project load
-    const projectListDiv = document.createElement("div")
-    projectListDiv.textContent = "Projects"
-    projectListDiv.classList.add("projectArray")
+    const projectListContainer = document.createElement("div")
+    projectListContainer.innerText = "My Projects"
+    const projectListUnorderedList = document.createElement("ul")
+    projectListUnorderedList.textContent = "Projects"
+    projectListUnorderedList.classList.add("projectArray")
+    projectListContainer.append(projectListUnorderedList)
 
     // append to contentDiv
-    contentDiv.append(heading, projectListDiv)
-    console.log("initialDOMLoad loaded")
+    contentDiv.append(heading, projectListContainer)
 }

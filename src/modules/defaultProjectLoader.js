@@ -5,11 +5,9 @@ import projectArrayMethods from "./projectArrayMethods"
 
 Object.defineProperties(Array.prototype, projectArrayMethods)
 
-export default function blankProjectLoad() {
+export default function defaultProjectLoader(projectArray) {
     console.log("Creating empty project array...")
-    const projectArr = []
     const defaultProject = createProject("Default Project")
-    projectArr.pushProject(defaultProject)
+    projectArray.pushProject(defaultProject)
     console.log("Added Default project to array")
-    return projectArr
 }

@@ -1,14 +1,14 @@
 import "./style.css"
-import blankProjectLoad from "./modules/blankProjectLoad"
+import defaultProjectLoader from "./modules/defaultProjectLoader"
 import DOMHandler from "./modules/DOMHandler"
 import createProject from "./modules/projectObject"
 import createTask from "./modules/task"
 
-const projectArray = blankProjectLoad()
+export const LOCAL_STORAGE_LIST_KEY = "project.lists"
+let projectList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || []
 
-DOMHandler(projectArray)
-
-console.log(projectArray[0])
+if (projectList.length === 0) defaultProjectLoader(projectList)
+DOMHandler(projectList)
 
 // TODO: click event module HERE for project creation
 // This event handler should detect for new project creation which then calls

@@ -8,7 +8,6 @@ export function initialDOMLoad() {
     const projectListContainer = document.createElement("div")
     projectListContainer.innerText = "My Projects"
     const projectListUnorderedList = document.createElement("ul")
-    projectListUnorderedList.textContent = "Projects"
     projectListUnorderedList.classList.add("projectArray")
     projectListContainer.append(projectListUnorderedList)
 

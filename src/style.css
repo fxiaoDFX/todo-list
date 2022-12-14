@@ -1,14 +1,31 @@
 * {
     margin: 0;
     padding: 0;
+    border: 2px solid black;
 }
 
 body {
     background-color: grey;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
 }
 
-.content * {
-    border: 2px solid black;
+.content {
+    flex: 1;
+    background-color: slateblue;
+    display: flex;
+}
+
+.header,
+.footer {
+    font-size: 1.5rem;
+}
+
+.footer {
+    position: sticky;
+    top: 100%;
 }
 
 form {

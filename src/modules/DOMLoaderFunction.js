@@ -38,7 +38,8 @@ function makeProjectList() {
     const title = document.createElement("h3")
     title.innerText = "My Projects"
     const list = document.createElement("ul")
-    list.classList.add("list")
+    list.classList.add("projectList")
+    list.setAttribute("data-list", "")
     const form = makeForm()
     listContainer.append(title, list, form)
     return listContainer
@@ -48,8 +49,11 @@ function makeForm() {
     const form = document.createElement("form")
     const input = document.createElement("input")
     const button = document.createElement("button")
-    button.classList.add("button", "create")
     form.append(button, input)
+    button.setAttribute("aria-label", "create new project")
+    button.setAttribute("class", "btn create")
+    input.setAttribute("aria-label", "craete new project")
+    input.setAttribute("class", "new project")
     return form
 }
 
@@ -57,13 +61,35 @@ function makeTaskList() {
     const taskContainer = document.createElement("div")
     const name = document.createElement("h4")
     name.textContent = "Project Name"
+
+    const dueDate = document.createElement("h5")
+    const description = document.createElement("p")
+    dueDate.setAttribute("id", "dueDate")
+    description.setAttribute("id", "description")
+
     const taskRemaining = document.createElement("h6")
     const titleContainer = document.createElement("div")
-    titleContainer.append(name, taskRemaining)
+    titleContainer.append(name, taskRemaining, dueDate, description)
     taskRemaining.textContent = "0 tasks remain"
     const list = document.createElement("ul")
+    list.classList.add("taskList")
     const form = makeForm()
-    taskContainer.append(titleContainer, list, form)
+
+    const clearCompletedTasks = document.createElement("button")
+    const deleteProject = document.createElement("button")
+    clearCompletedTasks.classList.add("clearTasks", "btn")
+    deleteProject.classList.add("removeProject", "btn")
+    clearCompletedTasks.textContent = "Clear Completed Tasks"
+    deleteProject.textContent = "Delete Project"
+
+    taskContainer.append(
+        titleContainer,
+        list,
+        form,
+        clearCompletedTasks,
+        deleteProject
+    )
+
     return taskContainer
 }
 

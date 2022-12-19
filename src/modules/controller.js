@@ -26,7 +26,6 @@ const controller = (() => {
     const projectDescriptionElement =
         document.querySelector("[data-description]")
     const projectTaskCountElement = document.querySelector("[data-task-count]")
-
     const newTaskForm = document.querySelector("[data-new-task-form]")
     const newTaskInput = document.querySelector("[data-new-task-input]")
 
@@ -43,7 +42,6 @@ const controller = (() => {
     )
 
     // event listeners
-
     newProjectForm.addEventListener("submit", (e) => {
         e.preventDefault()
         const projectName = newProjectInput.value
@@ -73,8 +71,21 @@ const controller = (() => {
                 selectedListId = null
             } else selectedListId = e.target.dataset.listId
             saveAndRender()
+        } else if (e.target.tagName.toLowerCase() === "div") {
+            const string = e.target.className
+            const stringArray = string.split(" ")
+            const id = stringArray.find((value) => !isNaN(value))
+            const clickedProject = lists.find((project) => project.id === id)
+            cyclePriority(clickedProject)
         }
+        saveAndRender()
     })
+
+    function cyclePriority(clickedProject) {
+        let currentPriority = clickedProject.priority
+        clickedProject.priority =
+            currentPriority + 1 > 1 ? -1 : ++currentPriority
+    }
 
     taskListContainer.addEventListener("click", (e) => {
         if (e.target.tagName.toLowerCase() === "input") {
@@ -163,9 +174,13 @@ const controller = (() => {
     function renderList() {
         lists.forEach((project) => {
             const listElement = document.createElement("li")
+            const priorityDiv = document.createElement("div")
+            priorityDiv.dataset.priority = project.priority
+            priorityDiv.classList.add("project-priority", project.id)
             listElement.dataset.listId = project.id
             listElement.classList.add("listName")
             listElement.innerText = project.title
+            listElement.append(priorityDiv)
             if (project.id === selectedListId) {
                 listElement.classList.add("active-list")
             }

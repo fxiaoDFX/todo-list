@@ -61,3 +61,18 @@ form {
 .active-list {
     font-weight: bold;
 }
+
+.project-priority {
+    width: 20px;
+    height: 20px;
+}
+
+[data-priority="-1"] {
+    background-color: blue;
+}
+[data-priority="0"] {
+    background-color: green;
+}
+[data-priority="1"] {
+    background-color: red;
+}

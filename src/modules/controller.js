@@ -7,6 +7,14 @@ const controller = (() => {
     const deleteProjectButton = document.querySelector(
         "[data-delete-project-button]"
     )
+    const taskDisplayContainer = document.querySelector(
+        "[data-task-display-container]"
+    )
+    const projectTitleElement = document.querySelector("[data-title]")
+    const projectDueDateElement = document.querySelector("[data-due-date]")
+    const projectDescriptionElement =
+        document.querySelector("[data-description]")
+    const projectTaskCountElement = document.querySelector("[data-task-count]")
 
     // Local Storage Keys
     const LOCAL_STORAGE_LIST_KEY = "project.list"
@@ -59,6 +67,24 @@ const controller = (() => {
 
     function render() {
         clearContainer(listContainer)
+        renderList()
+
+        const selectedProject = lists.find(
+            (project) => project.id === selectedListId
+        )
+        if (!selectedProject) {
+            taskDisplayContainer.style.display = "none"
+        } else {
+            taskDisplayContainer.style.display = ""
+            projectTitleElement.textContent = selectedProject.title
+            projectTaskCountElement.textContent =
+                selectedProject.taskArray.length === 0
+                    ? `${selectedProject.taskArray.length} task remain`
+                    : `${selectedProject.taskArray.length} tasks remain`
+        }
+    }
+
+    function renderList() {
         lists.forEach((project) => {
             const listElement = document.createElement("li")
             listElement.dataset.listId = project.id

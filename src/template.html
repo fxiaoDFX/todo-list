@@ -24,14 +24,23 @@
                     />
                 </form>
             </div>
-            <div class="taskContainer">
+            <div class="taskContainer" data-task-display-container>
                 <div class="taskHeader">
-                    <h4 id="projectName">Project Name</h4>
-                    <h6 class="tasks remaining">0 tasks remain</h6>
-                    <h5 id="dueDate">Due Date</h5>
-                    <p id="description">lorem ipsum</p>
+                    <h4 id="projectName" data-title>Project Name</h4>
+                    <h6 class="tasks remaining" data-task-count>
+                        0 tasks remain
+                    </h6>
+                    <h5 id="dueDate" data-due-date>Due Date</h5>
+                    <p id="description" data-description>lorem ipsum</p>
                 </div>
-                <ul class="taskList"></ul>
+                <ul class="taskList" data-tasks>
+                    <li class="task">
+                        <input type="checkbox" id="task-1" />
+                        <label for="task-1">
+                            <span class="custom-checkbox">stuff</span>
+                        </label>
+                    </li>
+                </ul>
                 <div class="deleteButtons">
                     <button class="btn delete" data-clear-tasks-button>
                         Clear completed tasks

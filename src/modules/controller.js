@@ -7,9 +7,15 @@ const controller = (() => {
     const listContainer = document.querySelector("[data-list]")
     const newProjectForm = document.querySelector("[data-new-project-form]")
     const newProjectInput = document.querySelector("[data-new-project-input]")
+
+    // buttons
     const deleteProjectButton = document.querySelector(
         "[data-delete-project-button]"
     )
+    const deleteCompletedTasksButtons = document.querySelector(
+        "[data-clear-tasks-button]"
+    )
+
     // task element
     const taskDisplayContainer = document.querySelector(
         "[data-task-display-container]"
@@ -37,6 +43,7 @@ const controller = (() => {
     )
 
     // event listeners
+
     newProjectForm.addEventListener("submit", (e) => {
         e.preventDefault()
         const projectName = newProjectInput.value
@@ -52,9 +59,8 @@ const controller = (() => {
         const taskName = newTaskInput.value
         if (taskName === null || taskName === "") return
         const newTask = createTask(taskName)
-        const selectedProject = lists.find(
-            (project) => project.id === selectedListId
-        )
+        const selectedProject = getSelectedProject()
+
         selectedProject.taskArray.push(newTask)
         newTaskInput.value = null
         saveAndRender()
@@ -70,8 +76,30 @@ const controller = (() => {
         }
     })
 
+    taskListContainer.addEventListener("click", (e) => {
+        if (e.target.tagName.toLowerCase() === "input") {
+            const selectedProject = getSelectedProject()
+            const taskId = e.target.id
+            const clickedTask = getClickedTask(selectedProject, taskId)
+            clickedTask.complete = clickedTask.complete ? false : true
+            saveAndRender()
+        }
+    })
+
+    function getClickedTask(selectedProject, taskId) {
+        return selectedProject.taskArray.find((task) => task.id === taskId)
+    }
+
     deleteProjectButton.addEventListener("click", () => {
         lists = lists.filter((project) => project.id !== selectedListId)
+        saveAndRender()
+    })
+
+    deleteCompletedTasksButtons.addEventListener("click", () => {
+        const selectedProject = getSelectedProject()
+        selectedProject.taskArray = selectedProject.taskArray.filter(
+            (task) => task.complete === false
+        )
         saveAndRender()
     })
 
@@ -90,9 +118,8 @@ const controller = (() => {
         clearContainer(listContainer)
         renderList()
 
-        const selectedProject = lists.find(
-            (project) => project.id === selectedListId
-        )
+        const selectedProject = getSelectedProject()
+
         if (!selectedProject) {
             taskDisplayContainer.style.display = "none"
         } else {
@@ -108,13 +135,15 @@ const controller = (() => {
         selectedProject.taskArray.forEach((task) => {
             const taskElement = document.createElement("li")
             taskElement.classList.add("task")
+            taskElement.dataset.taskId = task.id
             const taskCheckboxElement = document.createElement("input")
             taskCheckboxElement.setAttribute("type", "checkbox")
             taskCheckboxElement.setAttribute("id", task.id)
+            taskCheckboxElement.checked = task.complete
             const taskLabel = document.createElement("label")
             const span = document.createElement("span")
             span.classList.add("custom-checkbox")
-            taskLabel.setAttribute("for", task.id)
+            // taskLabel.setAttribute("for", task.id)
             span.textContent = task.name
             taskLabel.append(span)
 
@@ -148,6 +177,10 @@ const controller = (() => {
         while (element.firstChild) {
             element.removeChild(element.firstChild)
         }
+    }
+
+    function getSelectedProject() {
+        return lists.find((project) => project.id === selectedListId)
     }
 
     return { render }

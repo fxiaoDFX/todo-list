@@ -1,20 +1,28 @@
 import createProject from "./projectFactoryFunction"
+import createTask from "./taskFactoryFunction"
 
 const controller = (() => {
+    // DOM element selectors
+    // list element
     const listContainer = document.querySelector("[data-list]")
     const newProjectForm = document.querySelector("[data-new-project-form]")
     const newProjectInput = document.querySelector("[data-new-project-input]")
     const deleteProjectButton = document.querySelector(
         "[data-delete-project-button]"
     )
+    // task element
     const taskDisplayContainer = document.querySelector(
         "[data-task-display-container]"
     )
+    const taskListContainer = document.querySelector("[data-tasks]")
     const projectTitleElement = document.querySelector("[data-title]")
     const projectDueDateElement = document.querySelector("[data-due-date]")
     const projectDescriptionElement =
         document.querySelector("[data-description]")
     const projectTaskCountElement = document.querySelector("[data-task-count]")
+
+    const newTaskForm = document.querySelector("[data-new-task-form]")
+    const newTaskInput = document.querySelector("[data-new-task-input]")
 
     // Local Storage Keys
     const LOCAL_STORAGE_LIST_KEY = "project.list"
@@ -36,6 +44,19 @@ const controller = (() => {
         const newList = createProject(projectName)
         lists.push(newList)
         newProjectInput.value = null
+        saveAndRender()
+    })
+
+    newTaskForm.addEventListener("submit", (e) => {
+        e.preventDefault()
+        const taskName = newTaskInput.value
+        if (taskName === null || taskName === "") return
+        const newTask = createTask(taskName)
+        const selectedProject = lists.find(
+            (project) => project.id === selectedListId
+        )
+        selectedProject.taskArray.push(newTask)
+        newTaskInput.value = null
         saveAndRender()
     })
 
@@ -77,11 +98,37 @@ const controller = (() => {
         } else {
             taskDisplayContainer.style.display = ""
             projectTitleElement.textContent = selectedProject.title
-            projectTaskCountElement.textContent =
-                selectedProject.taskArray.length === 0
-                    ? `${selectedProject.taskArray.length} task remain`
-                    : `${selectedProject.taskArray.length} tasks remain`
+            renderTaskCount(selectedProject)
+            renderTaskList(selectedProject)
         }
+    }
+
+    function renderTaskList(selectedProject) {
+        clearContainer(taskListContainer)
+        selectedProject.taskArray.forEach((task) => {
+            const taskElement = document.createElement("li")
+            taskElement.classList.add("task")
+            const taskCheckboxElement = document.createElement("input")
+            taskCheckboxElement.setAttribute("type", "checkbox")
+            taskCheckboxElement.setAttribute("id", task.id)
+            const taskLabel = document.createElement("label")
+            const span = document.createElement("span")
+            span.classList.add("custom-checkbox")
+            taskLabel.setAttribute("for", task.id)
+            span.textContent = task.name
+            taskLabel.append(span)
+
+            taskElement.append(taskCheckboxElement, taskLabel)
+            taskListContainer.append(taskElement)
+        })
+    }
+
+    function renderTaskCount(selectedProject) {
+        const incompleteTaskCount = selectedProject.taskArray.filter(
+            (task) => !task.complete
+        ).length
+        const string = incompleteTaskCount === 1 ? "task" : "tasks"
+        projectTaskCountElement.textContent = `${incompleteTaskCount} ${string} remain`
     }
 
     function renderList() {

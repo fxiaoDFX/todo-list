@@ -3,6 +3,7 @@ import createTask from "./taskFactoryFunction"
 
 const controller = (() => {
     // DOM element selectors
+    const body = document.querySelector("body")
     // list element
     const listContainer = document.querySelector("[data-list]")
     const newProjectForm = document.querySelector("[data-new-project-form]")
@@ -20,6 +21,7 @@ const controller = (() => {
     const taskDisplayContainer = document.querySelector(
         "[data-task-display-container]"
     )
+    const projectInfoContainer = document.querySelector(".taskHeader")
     const taskListContainer = document.querySelector("[data-tasks]")
     const projectTitleElement = document.querySelector("[data-title]")
     const projectDueDateElement = document.querySelector("[data-due-date]")
@@ -32,6 +34,7 @@ const controller = (() => {
     // Local Storage Keys
     const LOCAL_STORAGE_LIST_KEY = "project.list"
     const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = "project.selectedListId"
+    const LOCAL_STORAGE_CURSOR_POSITION_KEY = "cursor.position"
 
     // value that will be used in local storage
     let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [
@@ -42,6 +45,37 @@ const controller = (() => {
     )
 
     // event listeners
+    body.addEventListener("click", () => {
+        updateProjectInfo()
+        saveAndRender()
+    })
+
+    function updateProjectInfo() {
+        const tagArray = []
+        for (const child of projectInfoContainer.children) {
+            if (child.tagName.toLowerCase() !== "h6") tagArray.push(child)
+        }
+        const selectedProject = getSelectedProject()
+        selectedProject.title = tagArray[0].textContent
+        selectedProject.dueDate = tagArray[1].textContent
+        selectedProject.description = tagArray[2].textContent
+    }
+
+    projectInfoContainer.addEventListener("click", (e) => {
+        const targetProperty = e.target.id
+
+        switch (targetProperty) {
+            case "projectName":
+                break
+            case "dueDate":
+                break
+            case "description":
+                break
+            default:
+                break
+        }
+    })
+
     newProjectForm.addEventListener("submit", (e) => {
         e.preventDefault()
         const projectName = newProjectInput.value
@@ -136,9 +170,22 @@ const controller = (() => {
         } else {
             taskDisplayContainer.style.display = ""
             projectTitleElement.textContent = selectedProject.title
+            projectDueDateElement.textContent = selectedProject.dueDate
+            projectDescriptionElement.textContent = selectedProject.description
             renderTaskCount(selectedProject)
             renderTaskList(selectedProject)
         }
+    }
+
+    function setCurrentCursorPosition() {
+        const range = document.createRange()
+        const selection = window.getSelection()
+        const currentNode = selection.focusNode
+        range.setStart(currentNode, currentNode.textContent.length)
+        range.collapse(true)
+
+        selection.removeAllRanges()
+        selection.addRange(range)
     }
 
     function renderTaskList(selectedProject) {

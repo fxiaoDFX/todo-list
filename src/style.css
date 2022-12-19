@@ -68,11 +68,15 @@ form {
 }
 
 [data-priority="-1"] {
-    background-color: blue;
+    background-color: green;
 }
 [data-priority="0"] {
-    background-color: green;
+    background-color: yellow;
 }
 [data-priority="1"] {
     background-color: red;
+}
+
+#dueDate {
+    color: red;
 }

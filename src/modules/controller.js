@@ -145,7 +145,44 @@ const controller = (() => {
             clickedTask.complete = clickedTask.complete ? false : true
             saveAndRender()
         }
+
+        if (e.target.tagName.toLowerCase() === "span") {
+            const selectedSpan = e.target
+            const taskId = selectedSpan.parentElement.parentElement
+            document.addEventListener("keyup", (e) => {
+                if (e.key === "Enter") {
+                    if (!taskId) return
+                    updateTaskName(
+                        selectedSpan.textContent,
+                        taskId.dataset.taskId
+                    )
+                }
+            })
+
+            document.addEventListener("click", (e) => {
+                if (e.target.tagName.toLowerCase() !== "span") {
+                    console.log("id", taskId.dataset.taskId)
+                    if (!taskId) return
+                    updateTaskName(
+                        selectedSpan.textContent,
+                        taskId.dataset.taskId
+                    )
+                }
+            })
+        }
     })
+
+    function updateTaskName(name, taskId) {
+        const selectedProject = getSelectedProject()
+        console.log(name)
+        console.log(taskId)
+        const task = selectedProject.taskArray.find(
+            (task) => task.id === taskId
+        )
+        if (!task) return
+        task.name = name
+        saveAndRender()
+    }
 
     function getClickedTask(selectedProject, taskId) {
         return selectedProject.taskArray.find((task) => task.id === taskId)
@@ -205,6 +242,7 @@ const controller = (() => {
             taskCheckboxElement.checked = task.complete
             const taskLabel = document.createElement("label")
             const span = document.createElement("span")
+            span.setAttribute("contenteditable", "true")
             span.classList.add("custom-checkbox")
             span.textContent = task.name
             taskLabel.append(span)

@@ -1,11 +1,10 @@
 * {
     margin: 0;
     padding: 0;
-    border: 2px solid black;
 }
 
 body {
-    background-color: grey;
+    background-color: white;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -28,14 +27,84 @@ body {
     top: 100%;
 }
 
+.listContainer {
+    background-color: lightgray;
+    border-right: 1px solid gray;
+    padding: 30px 14px;
+}
+
+.listContainer h3 {
+    border-bottom: 2px solid black;
+}
+
+.taskContainer {
+    padding: 20px;
+    background-color: grey;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    grid-template-areas:
+        "header"
+        "list"
+        "form"
+        "delete"
+        "edit";
+}
+
+.taskHeader {
+    display: grid;
+    grid-area: header;
+    grid-template-areas:
+        "title title count"
+        ". date ."
+        ". description .";
+}
+
+#projectName {
+    grid-area: title;
+}
+
+h6.task {
+    grid-area: count;
+    display: flex;
+    justify-content: center;
+}
+
+.taskList {
+    grid-area: list;
+}
+
+.taskContainer form {
+    grid-area: form;
+    display: flex;
+    align-self: center;
+    height: 24px;
+    align-items: center;
+}
+
+.deleteButtons {
+    grid-area: delete;
+}
+
+#btn-edit {
+    grid-area: edit;
+    width: 60px;
+    justify-self: center;
+}
+
 form {
     display: flex;
+}
+
+.btn:hover {
+    cursor: pointer;
 }
 
 .btn.create {
     width: 50px;
     height: 50px;
     background: none;
+    border: none;
 }
 
 .btn.create {
@@ -121,4 +190,57 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+ul {
+    list-style: none;
+    margin: 10px 8px;
+}
+
+li {
+    margin: 16px;
+}
+
+.listName {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.listName div {
+    width: 8px;
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+button {
+    min-height: auto;
+    max-height: 70px;
+    width: 90px;
+}
+
+.deleteButtons {
+    margin: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.deleteButtons button {
+    margin: 4px;
+    padding: 4px;
+}
+
+.task {
+    background-color: peachpuff;
+    padding: 4px;
+    border-radius: 2px;
+}
+
+.task input {
+    margin-right: 6px;
+}
+
+#description {
+    margin: 8px 4px;
 }

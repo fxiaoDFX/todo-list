@@ -80,3 +80,45 @@ form {
 #dueDate {
     color: red;
 }
+
+.modal-container {
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.modal > * {
+    margin: 2px;
+}
+
+.modal label {
+    border-style: none;
+}
+
+.modal input {
+    margin-bottom: 12px;
+}
+
+.modal-container.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal {
+    border: none;
+    border-radius: 8px;
+    padding: 24px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

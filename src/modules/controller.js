@@ -3,7 +3,9 @@ import createTask from "./taskFactoryFunction"
 
 const controller = (() => {
     // DOM element selectors
-    const body = document.querySelector("body")
+    const modalContainer = document.querySelector(".modal-container")
+    const modalSubmit = document.querySelector(".modal")
+
     // list element
     const listContainer = document.querySelector("[data-list]")
     const newProjectForm = document.querySelector("[data-new-project-form]")
@@ -16,6 +18,7 @@ const controller = (() => {
     const deleteCompletedTasksButtons = document.querySelector(
         "[data-clear-tasks-button]"
     )
+    const editButton = document.getElementById("btn-edit")
 
     // task element
     const taskDisplayContainer = document.querySelector(
@@ -34,7 +37,6 @@ const controller = (() => {
     // Local Storage Keys
     const LOCAL_STORAGE_LIST_KEY = "project.list"
     const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = "project.selectedListId"
-    const LOCAL_STORAGE_CURSOR_POSITION_KEY = "cursor.position"
 
     // value that will be used in local storage
     let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [
@@ -45,21 +47,35 @@ const controller = (() => {
     )
 
     // event listeners
-    body.addEventListener("click", () => {
-        updateProjectInfo()
+    editButton.addEventListener("click", () => {
+        const selectedProject = getSelectedProject()
+        modalContainer.classList.add("show")
+        document.getElementById("title").value = selectedProject.title
+        document.getElementById("dueDate").value = selectedProject.dueDate
+        document.getElementById("description").value =
+            selectedProject.description
+    })
+
+    // closing the modal
+    modalSubmit.addEventListener("submit", (e) => {
+        e.preventDefault()
+        modalContainer.classList.remove("show")
+        const arr = Array.from(document.querySelectorAll(".modal [name]"))
+        const selectedProject = getSelectedProject()
+        arr.forEach((input) => {
+            selectedProject[input.id] = input.value
+        })
         saveAndRender()
     })
 
-    function updateProjectInfo() {
-        const tagArray = []
-        for (const child of projectInfoContainer.children) {
-            if (child.tagName.toLowerCase() !== "h6") tagArray.push(child)
-        }
-        const selectedProject = getSelectedProject()
-        selectedProject.title = tagArray[0].textContent
-        selectedProject.dueDate = tagArray[1].textContent
-        selectedProject.description = tagArray[2].textContent
-    }
+    modalContainer.addEventListener("click", (e) => {
+        if (e.target.tagName.toLowerCase() === "div")
+            modalContainer.classList.remove("show")
+    })
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") modalContainer.classList.remove("show")
+    })
 
     projectInfoContainer.addEventListener("click", (e) => {
         const targetProperty = e.target.id
@@ -177,17 +193,6 @@ const controller = (() => {
         }
     }
 
-    function setCurrentCursorPosition() {
-        const range = document.createRange()
-        const selection = window.getSelection()
-        const currentNode = selection.focusNode
-        range.setStart(currentNode, currentNode.textContent.length)
-        range.collapse(true)
-
-        selection.removeAllRanges()
-        selection.addRange(range)
-    }
-
     function renderTaskList(selectedProject) {
         clearContainer(taskListContainer)
         selectedProject.taskArray.forEach((task) => {
@@ -201,7 +206,6 @@ const controller = (() => {
             const taskLabel = document.createElement("label")
             const span = document.createElement("span")
             span.classList.add("custom-checkbox")
-            // taskLabel.setAttribute("for", task.id)
             span.textContent = task.name
             taskLabel.append(span)
 

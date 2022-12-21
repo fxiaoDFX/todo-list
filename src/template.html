@@ -8,6 +8,25 @@
     <body>
         <div class="header"><h1>TODO APP</h1></div>
         <div class="content">
+            <div class="modal-container">
+                <form class="modal" action="">
+                    <label for="title">Project Title</label>
+                    <input type="text" name="information" id="title" />
+                    <label for="dueDate">Due Date</label>
+                    <input type="date" name="information" id="dueDate" />
+                    <label for="description">Project Description</label>
+                    <textarea
+                        name="information"
+                        id="description"
+                        cols="20"
+                        rows="10"
+                    ></textarea>
+                    <button type="submit" class="update information">
+                        Submit
+                    </button>
+                </form>
+            </div>
+
             <div class="listContainer">
                 <h3>Projects</h3>
                 <ul class="list" data-list></ul>
@@ -26,18 +45,12 @@
             </div>
             <div class="taskContainer" data-task-display-container>
                 <div class="taskHeader">
-                    <h4 id="projectName" data-title contenteditable="true">
-                        Project Name
-                    </h4>
+                    <h4 id="projectName" data-title>Project Name</h4>
                     <h6 class="tasks remaining" data-task-count>
                         0 tasks remain
                     </h6>
-                    <h5 id="dueDate" data-due-date contenteditable="true">
-                        Due Date
-                    </h5>
-                    <p id="description" data-description contenteditable="true">
-                        lorem ipsum
-                    </p>
+                    <h5 id="date" data-due-date>Due Date</h5>
+                    <p id="description" data-description>lorem ipsum</p>
                 </div>
                 <ul class="taskList" data-tasks>
                     <li class="task">
@@ -68,6 +81,7 @@
                         Delete Project
                     </button>
                 </div>
+                <button id="btn-edit">Edit</button>
             </div>
         </div>
         <div class="footer"><p>Footer</p></div>
